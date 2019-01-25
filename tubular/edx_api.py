@@ -297,6 +297,14 @@ class LmsApi(BaseApiClient):
             return self._client.api.user.v1.accounts.retirement_partner_report_cleanup.post(**params)
 
     @_retry_lms_api()
+    def retirement_retire_proctoring_data(self, learner):
+        """
+        Removes the given learner from 3rd party proctoring backends
+        """
+        with correct_exception():
+            return self._client.api.edx_proctoring.v1.backend_user(learner['user_id']).delete()
+
+    @_retry_lms_api()
     def bulk_cleanup_retirements(self, usernames):
         """
         Deletes the retirements for all given usernames
